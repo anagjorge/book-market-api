@@ -1,6 +1,7 @@
 package com.bookmarket.service
 
 import com.bookmarket.model.CustomerModel
+import com.bookmarket.repository.CustomerRepository
 import com.bookmarket.request.PostCustomerRequest
 import com.bookmarket.request.PutCustomerRequest
 import org.springframework.http.HttpStatus
@@ -9,41 +10,37 @@ import org.springframework.web.bind.annotation.*
 
 
 @Service
-class CustomerService {
+class CustomerService(
+    val customerRepository: CustomerRepository
+) {
     val customers = mutableListOf<CustomerModel>()
 
+    fun create(customer: CustomerModel) {
+        customerRepository.save(customer)
+    }
+
     fun getAll(name: String?): List<CustomerModel> {
-        name?.let{
-            return customers.filter { it.name.contains(name, true) }
+        name?.let {
+            return customerRepository.findByNameContaining(it)
         }
-
-        return customers
+        return customerRepository.findAll().toList()
     }
 
-    fun getCustomer(id: String): CustomerModel{
-        return customers.filter{it.id == id}.first()
+    fun getCustomer(id: Int): CustomerModel {
+        return customerRepository.findById(id).orElseThrow()
     }
 
-    fun create(customer: CustomerModel){
-        val id = if(customers.isEmpty()){
-            1
-        } else {
-            customers.last().id!!.toInt() + 1
-        }.toString()
-
-        customer.id = id
-        customers.add(customer)
-    }
-
-
-    fun update(customer:CustomerModel) {
-        customers.filter{it.id == customer.id}.first().let {
-            it.name = customer.name
-            it.email= customer.email
+    fun update(customer: CustomerModel) {
+        if(!customerRepository.existsById(customer.id!!)){
+            throw Exception()
         }
+        customerRepository.save(customer)
     }
 
-    fun delete(id: String) {
-        customers.removeIf{it.id == id}
+    fun delete(id: Int) {
+        if(!customerRepository.existsById(id)){
+            throw Exception()
+        }
+        customerRepository.deleteById(id)
     }
 }
