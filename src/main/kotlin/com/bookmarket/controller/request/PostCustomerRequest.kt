@@ -1,4 +1,4 @@
-package com.bookmarket.request
+package com.bookmarket.controller.request
 
 import com.bookmarket.model.CustomerModel
 

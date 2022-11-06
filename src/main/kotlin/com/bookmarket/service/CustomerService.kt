@@ -2,11 +2,7 @@ package com.bookmarket.service
 
 import com.bookmarket.model.CustomerModel
 import com.bookmarket.repository.CustomerRepository
-import com.bookmarket.request.PostCustomerRequest
-import com.bookmarket.request.PutCustomerRequest
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.*
 
 
 @Service
@@ -26,7 +22,7 @@ class CustomerService(
         return customerRepository.findAll().toList()
     }
 
-    fun getCustomer(id: Int): CustomerModel {
+    fun getById(id: Int): CustomerModel {
         return customerRepository.findById(id).orElseThrow()
     }
 
