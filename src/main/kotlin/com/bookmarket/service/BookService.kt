@@ -4,8 +4,9 @@ import com.bookmarket.enums.BookStatus
 import com.bookmarket.model.BookModel
 import com.bookmarket.model.CustomerModel
 import com.bookmarket.repository.BookRepository
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
+import org.springframework.data.domain.Pageable
 
 @Service
 class BookService(
@@ -15,12 +16,12 @@ class BookService(
         bookRepository.save(book)
     }
 
-    fun getAll(): List<BookModel> {
-        return bookRepository.findAll().toList()
+    fun findAll(pageable: Pageable): Page<BookModel> {
+        return bookRepository.findAll(pageable)
     }
 
-    fun getActives(): List<BookModel> {
-        return bookRepository.findByStatus(BookStatus.ATIVO)
+    fun getActives(pageable: Pageable): Page<BookModel> {
+        return bookRepository.findByStatus(BookStatus.ATIVO, pageable)
     }
 
     fun getById(id: Int): BookModel {
@@ -31,9 +32,9 @@ class BookService(
         bookRepository.save(book)
     }
 
-    fun deleteById(id: Int) {
+    fun delete(id: Int) {
         val book = getById(id)
-        book.status = BookStatus.ATIVO
+        book.status = BookStatus.CANCELADO
         update(book)
     }
 
@@ -43,8 +44,6 @@ class BookService(
             book.status = BookStatus.DELETADO
         }
         bookRepository.saveAll(books)
-
     }
-
 
 }

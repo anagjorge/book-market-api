@@ -2,13 +2,17 @@ package com.bookmarket.controller
 
 import com.bookmarket.controller.request.PostBookRequest
 import com.bookmarket.controller.request.PutBookRequest
+import com.bookmarket.controller.response.BookResponse
 import com.bookmarket.extension.toBookModel
-import com.bookmarket.model.BookModel
+import com.bookmarket.extension.toResponse
 import com.bookmarket.service.BookService
 import com.bookmarket.service.CustomerService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import java.awt.print.Book
+
 
 @RestController
 @RequestMapping("books")
@@ -25,25 +29,24 @@ class BookController(
     }
 
     @GetMapping
-    fun getAll(): List<BookModel> {
-        return bookService.getAll()
-    }
-
-
-    @GetMapping("{/id}")
-    fun getById(@PathVariable id: Int): BookModel {
-        return bookService.getById(id)
+    fun getAll(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> {
+        return bookService.findAll(pageable).map { it.toResponse() }
     }
 
     @GetMapping("/actives")
-    fun getActives(): List<BookModel> {
-        return bookService.getActives()
+    fun getActives(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> {
+        return bookService.getActives(pageable).map { it.toResponse() }
+    }
+
+    @GetMapping("{/id}")
+    fun getById(@PathVariable id: Int): BookResponse {
+        return bookService.getById(id).toResponse()
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Int) {
-        return bookService.deleteById(id)
+         bookService.delete(id)
     }
 
     @PutMapping("/{id}")
