@@ -3,6 +3,8 @@ package com.bookmarket.service
 import com.bookmarket.enums.CustomerStatus
 import com.bookmarket.model.CustomerModel
 import com.bookmarket.repository.CustomerRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 
@@ -17,14 +19,14 @@ class CustomerService(
         customerRepository.save(customer)
     }
 
-    fun getAll(name: String?): List<CustomerModel> {
+    fun findAll(name: String?, pageable: Pageable): Page<CustomerModel> {
         name?.let {
             return customerRepository.findByNameContaining(it)
         }
-        return customerRepository.findAll().toList()
+        return customerRepository.findAll(pageable)
     }
 
-    fun getById(id: Int): CustomerModel {
+    fun findById(id: Int): CustomerModel {
         return customerRepository.findById(id).orElseThrow()
     }
 
@@ -36,7 +38,7 @@ class CustomerService(
     }
 
     fun delete(id: Int) {
-        val customer = getById(id)
+        val customer = findById(id)
         customer.status = CustomerStatus.INATIVO
         customerRepository.save(customer)
     }
