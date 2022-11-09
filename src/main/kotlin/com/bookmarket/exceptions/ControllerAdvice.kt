@@ -1,8 +1,11 @@
 package com.bookmarket.exceptions
 
 import com.bookmarket.controller.response.ErrorResponse
+import com.bookmarket.controller.response.FieldErrorResponse
+import com.bookmarket.enums.Errors
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
@@ -31,4 +34,16 @@ class ControllerAdvice {
         )
         return ResponseEntity(erro, HttpStatus.BAD_REQUEST)
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleMethodArgumentNotValidException(ex: MethodArgumentNotValidException, requesst: WebRequest) : ResponseEntity<ErrorResponse>{
+        val erro = ErrorResponse(
+            HttpStatus.UNPROCESSABLE_ENTITY.value(),
+            Errors.BM001.message,
+            Errors.BM001.code,
+            ex.bindingResult.fieldErrors.map { FieldErrorResponse(it.defaultMessage ?: "invalid", it.field) }
+        )
+        return ResponseEntity(erro, HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+
 }
