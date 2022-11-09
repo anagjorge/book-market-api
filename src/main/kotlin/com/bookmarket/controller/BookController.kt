@@ -35,12 +35,12 @@ class BookController(
 
     @GetMapping("/actives")
     fun getActives(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> {
-        return bookService.getActives(pageable).map { it.toResponse() }
+        return bookService.findActives(pageable).map { it.toResponse() }
     }
 
     @GetMapping("{/id}")
     fun getById(@PathVariable id: Int): BookResponse {
-        return bookService.getById(id).toResponse()
+        return bookService.findById(id).toResponse()
     }
 
     @DeleteMapping("/{id}")
@@ -52,7 +52,7 @@ class BookController(
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun update(@PathVariable id: Int, @RequestBody book: PutBookRequest){
-        val bookSaved = bookService.getById(id)
+        val bookSaved = bookService.findById(id)
         bookService.update(book.toBookModel(bookSaved))
     }
 

@@ -1,6 +1,8 @@
 package com.bookmarket.service
 
 import com.bookmarket.enums.BookStatus
+import com.bookmarket.enums.Errors
+import com.bookmarket.exceptions.NotFoundException
 import com.bookmarket.model.BookModel
 import com.bookmarket.model.CustomerModel
 import com.bookmarket.repository.BookRepository
@@ -20,12 +22,12 @@ class BookService(
         return bookRepository.findAll(pageable)
     }
 
-    fun getActives(pageable: Pageable): Page<BookModel> {
+    fun findActives(pageable: Pageable): Page<BookModel> {
         return bookRepository.findByStatus(BookStatus.ATIVO, pageable)
     }
 
-    fun getById(id: Int): BookModel {
-        return bookRepository.findById(id).orElseThrow()
+    fun findById(id: Int): BookModel {
+        return bookRepository.findById(id).orElseThrow{NotFoundException(Errors.BM101.message.format(id), Errors.BM101.code)}
     }
 
     fun update(book: BookModel) {
@@ -33,7 +35,7 @@ class BookService(
     }
 
     fun delete(id: Int) {
-        val book = getById(id)
+        val book = findById(id)
         book.status = BookStatus.CANCELADO
         update(book)
     }

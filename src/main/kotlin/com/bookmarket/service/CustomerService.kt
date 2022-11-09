@@ -1,6 +1,8 @@
 package com.bookmarket.service
 
 import com.bookmarket.enums.CustomerStatus
+import com.bookmarket.enums.Errors
+import com.bookmarket.exceptions.NotFoundException
 import com.bookmarket.model.CustomerModel
 import com.bookmarket.repository.CustomerRepository
 import org.springframework.data.domain.Page
@@ -27,7 +29,7 @@ class CustomerService(
     }
 
     fun findById(id: Int): CustomerModel {
-        return customerRepository.findById(id).orElseThrow()
+        return customerRepository.findById(id).orElseThrow{ NotFoundException(Errors.BM201.message.format(id), Errors.BM201.code) }
     }
 
     fun update(customer: CustomerModel) {
