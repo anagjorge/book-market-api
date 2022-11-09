@@ -23,7 +23,11 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("io.springfox:springfox-swagger2:3.0.0")
+	implementation("io.springfox:springfox-swagger-ui2:3.0.0")
+
 	implementation("org.flywaydb:flyway-core:9.7.0")
+
 	runtimeOnly ("mysql:mysql-conector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 

@@ -9,3 +9,5 @@ class BookmarketApplication
 fun main(args: Array<String>) {
 	runApplication<BookmarketApplication>(*args)
 }
+
+
