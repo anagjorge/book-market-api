@@ -27,7 +27,8 @@ class BookService(
     }
 
     fun findById(id: Int): BookModel {
-        return bookRepository.findById(id).orElseThrow{NotFoundException(Errors.BM101.message.format(id), Errors.BM101.code)}
+        return bookRepository.findById(id)
+            .orElseThrow { NotFoundException(Errors.BM101.message.format(id), Errors.BM101.code) }
     }
 
     fun update(book: BookModel) {
@@ -42,10 +43,29 @@ class BookService(
 
     fun deleteByCustomer(customer: CustomerModel) {
         val books = bookRepository.findByCustomer(customer)
-        for(book in books) {
+        for (book in books) {
             book.status = BookStatus.DELETADO
         }
         bookRepository.saveAll(books)
     }
+
+    fun findAllByIds(bookIds: Set<Int>): List<BookModel> {
+        return bookRepository.findAllById(bookIds).toList()
+    }
+
+    fun purchase(books: MutableList<BookModel>) {
+        books.map {
+            it.status = BookStatus.VENDIDO
+        }
+        bookRepository.saveAll(books)
+    }
+
+    fun r(books: MutableList<BookModel>) {
+        for(book in books) {
+            if(book.status != BookStatus.ATIVO)
+            throw NotFoundException(Errors.BM201.message.format(book.id), Errors.BM101.code)
+        }
+    }
+
 
 }

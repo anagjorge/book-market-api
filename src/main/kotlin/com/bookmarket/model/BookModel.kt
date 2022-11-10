@@ -6,7 +6,7 @@ import com.bookmarket.exceptions.BadRequestException
 import java.math.BigDecimal
 import javax.persistence.*
 
-@Entity(name = "books")
+@Entity(name = "book")
 data class BookModel(
 
     @Id
