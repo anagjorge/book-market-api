@@ -60,12 +60,12 @@ class BookService(
         bookRepository.saveAll(books)
     }
 
-    fun r(books: MutableList<BookModel>) {
+    /*fun r(books: MutableList<BookModel>) {
         for(book in books) {
             if(book.status != BookStatus.ATIVO)
             throw NotFoundException(Errors.BM201.message.format(book.id), Errors.BM101.code)
         }
-    }
+    }*/
 
 
 }

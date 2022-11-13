@@ -15,7 +15,7 @@ class PurchaseService(
 ) {
 
     fun create(purchaseModel: PurchaseModel){
-        bookService.r(purchaseModel.books)
+        //bookService.r(purchaseModel.books)
         purchaseRepository.save(purchaseModel)
         aplicationEventPublisher.publishEvent(PurchaseEvent(this, purchaseModel))
     }
