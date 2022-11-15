@@ -5,6 +5,8 @@ import com.bookmarket.controller.request.PostCustomerRequest
 import com.bookmarket.controller.request.PutCustomerRequest
 import com.bookmarket.controller.response.CustomerResponse
 import com.bookmarket.extension.toResponse
+import com.bookmarket.security.OnlyAdminAcesssAllCustomers
+import com.bookmarket.security.UserCanOnlyAcesssTheirOwnResource
 import com.bookmarket.service.CustomerService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -34,6 +36,7 @@ class CustomerController(
     }
 
     @GetMapping
+    @OnlyAdminAcesssAllCustomers
     fun getAll(@RequestParam name: String?, @PageableDefault(page = 0, size = 10)pageable: Pageable)
     : Page<CustomerResponse> {
         return customerService.findAll(name, pageable).map { it.toResponse() }
@@ -41,6 +44,7 @@ class CustomerController(
 
 
     @GetMapping("/{id}")
+    @UserCanOnlyAcesssTheirOwnResource
     fun getCustomer(@PathVariable id: Int): CustomerResponse {
         return customerService.findById(id).toResponse()
     }
