@@ -1,5 +1,6 @@
 package com.bookmarket.config
 
+import com.bookmarket.enums.Role
 import com.bookmarket.repository.CustomerRepository
 import com.bookmarket.security.AuthenticationFilter
 import com.bookmarket.security.AuthorizationFilter
@@ -22,6 +23,7 @@ class SecurityConfig(
 ) : WebSecurityConfigurerAdapter(){
     private val PUBLIC_MATCHERS = arrayOf<String>()
     private val PUBLIC_POST_MATCHERS = arrayOf("/customers")
+    private val ADMIN_MATCHERS = arrayOf("/admin/**")
 
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetails).passwordEncoder(bCryptPasswordEncoder())
@@ -32,6 +34,7 @@ class SecurityConfig(
         http.authorizeHttpRequests()
             .antMatchers(*PUBLIC_MATCHERS).permitAll()
             .antMatchers(HttpMethod.POST, *PUBLIC_POST_MATCHERS).permitAll()
+            .antMatchers(*ADMIN_MATCHERS).hasAnyAuthority(Role.ADMIN.description)
             .anyRequest().authenticated()
         http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
         http.addFilter(AuthorizationFilter(authenticationManager(),userDetails, jwtUtil))
