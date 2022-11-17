@@ -3,7 +3,9 @@ package com.bookmarket.controller
 import com.bookmarket.controller.request.PostBookRequest
 import com.bookmarket.controller.request.PutBookRequest
 import com.bookmarket.controller.response.BookResponse
+import com.bookmarket.controller.response.PageResponse
 import com.bookmarket.extension.toBookModel
+import com.bookmarket.extension.toPageResponse
 import com.bookmarket.extension.toResponse
 import com.bookmarket.service.BookService
 import com.bookmarket.service.CustomerService
@@ -18,8 +20,8 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("books")
 class BookController(
-    val bookService: BookService,
-    val customerService: CustomerService
+    private val bookService: BookService,
+    private val customerService: CustomerService
 ) {
 
     @PostMapping
@@ -30,17 +32,17 @@ class BookController(
     }
 
     @GetMapping
-    fun getAll(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> {
-        return bookService.findAll(pageable).map { it.toResponse() }
+    fun findAll(@PageableDefault(page = 0, size = 10) pageable: Pageable): PageResponse<BookResponse> {
+        return bookService.findAll(pageable).map { it.toResponse() }.toPageResponse()
     }
 
     @GetMapping("/actives")
-    fun getActives(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> {
-        return bookService.findActives(pageable).map { it.toResponse() }
+    fun findActives(@PageableDefault(page = 0, size = 10) pageable: Pageable): PageResponse<BookResponse> {
+        return bookService.findActives(pageable).map { it.toResponse() }.toPageResponse()
     }
 
     @GetMapping("{/id}")
-    fun getById(@PathVariable id: Int): BookResponse {
+    fun findById(@PathVariable id: Int): BookResponse {
         return bookService.findById(id).toResponse()
     }
 

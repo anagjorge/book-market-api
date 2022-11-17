@@ -4,6 +4,8 @@ import com.bookmarket.extension.toCustomerModel
 import com.bookmarket.controller.request.PostCustomerRequest
 import com.bookmarket.controller.request.PutCustomerRequest
 import com.bookmarket.controller.response.CustomerResponse
+import com.bookmarket.controller.response.PageResponse
+import com.bookmarket.extension.toPageResponse
 import com.bookmarket.extension.toResponse
 import com.bookmarket.security.OnlyAdminAcesssAllCustomers
 import com.bookmarket.security.UserCanOnlyAcesssTheirOwnResource
@@ -27,7 +29,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("customers")
 class CustomerController(
-    val customerService: CustomerService
+    private val customerService: CustomerService
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,11 +39,10 @@ class CustomerController(
 
     @GetMapping
     @OnlyAdminAcesssAllCustomers
-    fun getAll(@RequestParam name: String?, @PageableDefault(page = 0, size = 10)pageable: Pageable)
-    : Page<CustomerResponse> {
-        return customerService.findAll(name, pageable).map { it.toResponse() }
+    fun findAll(@RequestParam name: String?, @PageableDefault(page = 0, size = 10)pageable: Pageable)
+    : PageResponse<CustomerResponse> {
+        return customerService.findAll(name, pageable).map { it.toResponse() }.toPageResponse()
     }
-
 
     @GetMapping("/{id}")
     @UserCanOnlyAcesssTheirOwnResource

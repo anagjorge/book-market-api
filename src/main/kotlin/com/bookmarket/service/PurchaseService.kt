@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class PurchaseService(
     private val purchaseRepository: PurchaseRepository,
     private val aplicationEventPublisher: ApplicationEventPublisher,
-    val bookService: BookService
+    private val bookService: BookService
 
 ) {
 

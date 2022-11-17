@@ -7,9 +7,11 @@ import com.bookmarket.controller.request.PutBookRequest
 import com.bookmarket.controller.request.PutCustomerRequest
 import com.bookmarket.controller.response.BookResponse
 import com.bookmarket.controller.response.CustomerResponse
+import com.bookmarket.controller.response.PageResponse
 import com.bookmarket.enums.BookStatus
 import com.bookmarket.enums.CustomerStatus
 import com.bookmarket.model.BookModel
+import org.springframework.data.domain.Page
 import java.math.BigDecimal
 import javax.persistence.*
 
@@ -67,6 +69,14 @@ fun BookModel.toResponse(): BookResponse {
         customer = this.customer,
         status = this.status
     )
+}
+
+fun <T> Page<T>.toPageResponse(): PageResponse<T>{
+    return PageResponse(
+        this.content,
+        this.number,
+        this.totalElements,
+        this.totalPages)
 }
 
 

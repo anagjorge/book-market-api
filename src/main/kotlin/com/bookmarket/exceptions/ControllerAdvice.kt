@@ -53,6 +53,7 @@ class ControllerAdvice {
             Errors.BM000.message,
             Errors.BM000.code,
             null
+
         )
         return ResponseEntity(erro, HttpStatus.FORBIDDEN)
     }
