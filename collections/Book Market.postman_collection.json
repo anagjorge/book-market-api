@@ -11,6 +11,18 @@
 			"item": [
 				{
 					"name": "/customers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var token = pm.response.headers.get(\"Authorization\")",
+									"pm.environment.set('token', token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -24,12 +36,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/customers",
-							"protocol": "http",
+							"raw": "{{base_url}}/customers",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"customers"
 							]
@@ -55,12 +65,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/customers",
-							"protocol": "http",
+							"raw": "{{base_url}}/customers",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"customers"
 							]
@@ -83,12 +91,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/customers/1",
-							"protocol": "http",
+							"raw": "{{base_url}}/customers/1",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"customers",
 								"1"
@@ -101,14 +107,18 @@
 					"name": "/customers/{id}",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8080/customers/1",
-							"protocol": "http",
+							"raw": "{{base_url}}/customers/1",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"customers",
 								"1"
@@ -123,12 +133,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/customers/2",
-							"protocol": "http",
+							"raw": "{{base_url}}/customers/2",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"customers",
 								"2"
@@ -143,12 +151,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/customers?name=maria",
-							"protocol": "http",
+							"raw": "{{base_url}}/customers?name=maria",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"customers"
 							],
@@ -168,12 +174,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/customers?size=1&page=1",
-							"protocol": "http",
+							"raw": "{{base_url}}/customers?size=1&page=1",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"customers"
 							],
@@ -202,12 +206,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/books?size=2&page=2",
-							"protocol": "http",
+							"raw": "{{base_url}}/books?size=2&page=2",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"books"
 							],
@@ -231,12 +233,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/books/actives",
-							"protocol": "http",
+							"raw": "{{base_url}}/books/actives",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"books",
 								"actives"
@@ -251,12 +251,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/books/1",
-							"protocol": "http",
+							"raw": "{{base_url}}/books/1",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"books",
 								"1"
@@ -280,12 +278,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/books",
-							"protocol": "http",
+							"raw": "{{base_url}}/books",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"books"
 							]
@@ -308,12 +304,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/books/1",
-							"protocol": "http",
+							"raw": "{{base_url}}/books/1",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"books",
 								"1"
@@ -328,12 +322,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/books/1",
-							"protocol": "http",
+							"raw": "{{base_url}}/books/1",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"books",
 								"1"
@@ -362,14 +354,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/purchase",
-							"protocol": "http",
+							"raw": "{{base_url}}/purchases",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
-								"purchase"
+								"purchases"
 							]
 						}
 					},
@@ -395,12 +385,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/login",
-							"protocol": "http",
+							"raw": "{{base_url}}/login",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"login"
 							]
@@ -425,15 +413,13 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/admin/report",
-							"protocol": "http",
+							"raw": "{{base_url}}/admin/reports",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8080",
 							"path": [
 								"admin",
-								"report"
+								"reports"
 							]
 						}
 					},
