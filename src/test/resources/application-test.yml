@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:mysql://localhost:3306/bookmarkettest?createDatabaseIfNotExists=true
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+  jackson:
+    default-property-inclusion: non_null
+
+jwt:
+  secret: fa0728b5-b0b5-4edb-aeac-09e958f82762
+  expiration: 999999

@@ -32,7 +32,9 @@ dependencies {
 	implementation("org.flywaydb:flyway-core:9.7.0")
 
 	runtimeOnly ("mysql:mysql-conector-java")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.mockk:mockk:1.13.2")
 
 }
 
