@@ -28,7 +28,7 @@ class CustomerService(
         customerRepository.save(customerCopy)
     }
 
-    fun getAll(name: String?, pageable: Pageable): Page<CustomerModel> {
+    fun getAll(name: String?, pageable: Pageable): Page<CustomerModel>{
         name?.let {
             return customerRepository.findByNameContaining(it)
         }

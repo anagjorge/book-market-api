@@ -12,6 +12,7 @@ import io.mockk.verify
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.data.domain.Pageable
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.UUID
 
@@ -30,20 +31,20 @@ class CustomerServiceTest {
     @InjectMockKs
     private lateinit var customerService: CustomerService
 
-
     @Test
-    fun `should return all customers`() {
+    fun `should return all customers when name is informed`() {
+        val name = UUID.randomUUID().toString()
         val fakeCustomers = listOf(buildCustomer(), buildCustomer())
 
-        every { customerRepository.findAll() } returns fakeCustomers
+         every { customerRepository.findByNameContaining(name) } returns fakeCustomers
 
-        val customers = customerService.getAll(null)
+        val customers = customerService.getAll(name, Pageable.unpaged())
 
         assertEquals(fakeCustomers, customers)
-        verify(exactly = 2) {customerRepository.findAll() }
+        verify(exactly = 1) {customerRepository.findAll() }
         verify(exactly = 0) {customerRepository.findByNameContaining(any())}
-
     }
+
 
     fun buildCustomer(
         id: Int? = null,
