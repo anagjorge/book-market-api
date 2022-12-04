@@ -2,9 +2,8 @@ package com.bookmarket.service
 
 import com.bookmarket.enums.CustomerStatus
 import com.bookmarket.enums.Errors
-import com.bookmarket.enums.Role
 import com.bookmarket.exceptions.NotFoundException
-import com.bookmarket.model.CustomerModel
+import com.bookmarket.helper.buildCustomer
 import com.bookmarket.repository.CustomerRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -192,18 +191,6 @@ class CustomerServiceTest {
     }
 
 
-    fun buildCustomer(
-        id: Int? = null,
-        name: String = "customer name",
-        email: String = "${UUID.randomUUID()}@email.com",
-        password: String = "password"
-    ) = CustomerModel(
-        id = id,
-        name = name,
-        email = email,
-        status = CustomerStatus.ATIVO,
-        password = password,
-        roles = setOf(Role.CUSTOMER)
-    )
+
 
 }
