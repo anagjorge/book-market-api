@@ -35,6 +35,7 @@ dependencies {
 	runtimeOnly ("mysql:mysql-conector-java")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.security:spring-security-test:5.5.1")
 	testImplementation("io.mockk:mockk:1.13.2")
 
 }
